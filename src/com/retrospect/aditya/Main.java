@@ -6,6 +6,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxBinary;
@@ -14,6 +15,7 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 
 import java.io.*;
 import java.util.*;
+
 
 public class Main {
 
@@ -27,6 +29,9 @@ public class Main {
 
         WebElement id = driver.findElement(By.id("login-email"));
         WebElement pass = driver.findElement(By.id("login-password"));
+
+        //id.sendKeys("l2bhi@vmani.com"); // Not dead
+        //id.sendKeys("df9gm@msgos.com"); // Not dead
         id.sendKeys("dreruslejo@thrma.com");
         pass.sendKeys("Asdfvcxz");
 
@@ -48,7 +53,7 @@ public class Main {
         }
 
         Random random = new Random();
-        for (int i = 0; i < profiles.size(); i++) {
+        for (int i = 562; i < profiles.size(); i++) {
             System.out.println("Profile List Index: " + i);
             try {
                 int randNum = random.nextInt(5000) + 3000;
@@ -57,11 +62,13 @@ public class Main {
                 Thread.currentThread().interrupt();
             }
             driver.get(profiles.get(i));
-            WebElement element = driver.findElement(By.className("view-public-profile"));
-            System.out.println(element.getAttribute("href"));
-            outputStream.println();
-            outputStream.print(element.getAttribute("href"));
-
+            if (isElementPresent(By.className("view-public-profile"), driver)) {
+                String element = driver.findElement(By.className("view-public-profile")).getText();
+                System.out.println(element);
+                outputStream.print(element);
+                outputStream.println();
+                outputStream.flush();
+            }
         }
 
 
